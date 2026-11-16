@@ -59,7 +59,33 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             const SizedBox(height: 16),
-            for (final entry in _controller.entries) JournalCard(entry: entry),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'Journal entries',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+                DropdownButton<HomePageSortOption>(
+                  value: _controller.sortOption,
+                  onChanged: (option) {
+                    if (option != null) {
+                      _controller.setSortOption(option);
+                    }
+                  },
+                  items: [
+                    for (final option in HomePageSortOption.values)
+                      DropdownMenuItem(
+                        value: option,
+                        child: Text(_controller.sortOptionLabel(option)),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+            for (final entry in _controller.sortedEntries)
+              JournalCard(entry: entry),
           ],
         ),
       ),
