@@ -5,10 +5,8 @@ import '../Add/AddPage.dart';
 import '../Detail/DetailPage.dart';
 import '../Settings/SettingsPage.dart';
 
-class HomePageController {
-  const HomePageController();
-
-  static final entries = [
+class HomePageController extends ChangeNotifier {
+  final List<JournalEntry> entries = [
     JournalEntry(
       title: 'A New Beginning',
       note: 'Started writing in my journal today.',
@@ -31,9 +29,15 @@ class HomePageController {
         .push(MaterialPageRoute<void>(builder: (_) => const DetailPage()));
   }
 
-  void openAdd(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (_) => const AddPage()));
+  Future<void> openAdd(BuildContext context) async {
+    final entry = await Navigator.of(context).push<JournalEntry>(
+      MaterialPageRoute<JournalEntry>(builder: (_) => const AddPage()),
+    );
+
+    if (entry != null && context.mounted) {
+      entries.insert(0, entry);
+      notifyListeners();
+    }
   }
 
   void openSettings(BuildContext context) {
