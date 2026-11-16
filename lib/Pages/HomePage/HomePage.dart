@@ -52,7 +52,21 @@ class _HomePageState extends State<HomePage> {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) => Scaffold(
-        appBar: AppBar(title: const Text('List')),
+        appBar: AppBar(
+          leading: IconButton(
+            tooltip: 'Settings',
+            onPressed: () => _controller.openSettings(context),
+            icon: const Icon(Icons.settings),
+          ),
+          title: const Text('List'),
+          actions: [
+            IconButton(
+              tooltip: 'Add journal entry',
+              onPressed: () => _controller.openAdd(context),
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        ),
         body: ListView(
           padding: const EdgeInsets.all(16),
           children: [
@@ -60,21 +74,6 @@ class _HomePageState extends State<HomePage> {
               'List',
               style: Theme.of(context).textTheme.displayLarge,
               textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 8,
-              children: [
-                ElevatedButton(
-                  onPressed: () => _controller.openAdd(context),
-                  child: const Text('Add'),
-                ),
-                ElevatedButton(
-                  onPressed: () => _controller.openSettings(context),
-                  child: const Text('Settings'),
-                ),
-              ],
             ),
             const SizedBox(height: 16),
             Row(
