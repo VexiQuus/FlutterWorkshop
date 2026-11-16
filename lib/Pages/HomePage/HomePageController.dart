@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 
+import '../Add/AddPage.dart';
+import '../Detail/DetailPage.dart';
+import '../Settings/SettingsPage.dart';
+
 class HomePageController {
-  // Controller logic goes here
-  void initialize() {
-    print('HomePageController initialized.');
+  const HomePageController();
+
+  void openDetail(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const DetailPage()),
+    );
   }
 
-  // Example method
-  void handleTap() {
-    print('Home page button tapped.');
+  void openAdd(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const AddPage()),
+    );
+  }
+
+  void openSettings(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const SettingsPage()),
+    );
   }
 }
