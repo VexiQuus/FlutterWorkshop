@@ -11,6 +11,10 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const controller = DetailPageController();
+    final date =
+        '${entry.createdAt.day.toString().padLeft(2, '0')}/'
+        '${entry.createdAt.month.toString().padLeft(2, '0')}/'
+        '${entry.createdAt.year}';
 
     return Scaffold(
       appBar: AppBar(
@@ -19,23 +23,38 @@ class DetailPage extends StatelessWidget {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                entry.title,
-                style: Theme.of(context).textTheme.displayLarge,
-                textAlign: TextAlign.center,
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Card(
+            margin: const EdgeInsets.symmetric(vertical: 24),
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Text(
+                      date,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    entry.title,
+                    style: Theme.of(context).textTheme.headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    entry.note,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
-              Text(
-                entry.note,
-                style: Theme.of(context).textTheme.bodyLarge,
-                textAlign: TextAlign.center,
-              ),
-            ],
+            ),
           ),
         ),
       ),
