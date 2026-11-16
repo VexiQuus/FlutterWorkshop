@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../Component/JournalCard/JournalCard.dart';
+import '../../Models/JournalEntry.dart';
 import 'HomePageController.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,6 +25,26 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  Future<bool?> _confirmDelete(JournalEntry entry) {
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete journal entry?'),
+        content: Text('Delete "${entry.title}"? This cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -82,9 +103,21 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             for (final entry in _controller.entries)
-              JournalCard(
-                entry: entry,
-                onTap: () => _controller.openDetail(context, entry),
+              Dismissible(
+                key: ObjectKey(entry),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  color: Theme.of(context).colorScheme.error,
+                  child: const Icon(Icons.delete, color: Colors.white),
+                ),
+                confirmDismiss: (_) => _confirmDelete(entry),
+                onDismissed: (_) => _controller.removeEntry(entry),
+                child: JournalCard(
+                  entry: entry,
+                  onTap: () => _controller.openDetail(context, entry),
+                ),
               ),
           ],
         ),

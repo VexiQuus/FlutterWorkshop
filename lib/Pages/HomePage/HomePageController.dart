@@ -67,6 +67,12 @@ class HomePageController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeEntry(JournalEntry entry) {
+    if (entries.remove(entry)) {
+      notifyListeners();
+    }
+  }
+
   void openDetail(BuildContext context, JournalEntry entry) {
     Navigator.of(
       context,
