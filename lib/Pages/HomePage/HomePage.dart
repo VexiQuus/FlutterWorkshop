@@ -15,23 +15,33 @@ class HomePage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text('List', style: Theme.of(context).textTheme.displayLarge),
+          Text(
+            'List',
+            style: Theme.of(context).textTheme.displayLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 8,
+            children: [
+              ElevatedButton(
+                onPressed: () => controller.openDetail(context),
+                child: const Text('Detail'),
+              ),
+              ElevatedButton(
+                onPressed: () => controller.openAdd(context),
+                child: const Text('Add'),
+              ),
+              ElevatedButton(
+                onPressed: () => controller.openSettings(context),
+                child: const Text('Settings'),
+              ),
+            ],
+          ),
           const SizedBox(height: 16),
           for (final entry in HomePageController.entries)
             JournalCard(entry: entry),
-          const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () => controller.openDetail(context),
-            child: const Text('Detail'),
-          ),
-          ElevatedButton(
-            onPressed: () => controller.openAdd(context),
-            child: const Text('Add'),
-          ),
-          ElevatedButton(
-            onPressed: () => controller.openSettings(context),
-            child: const Text('Settings'),
-          ),
         ],
       ),
     );

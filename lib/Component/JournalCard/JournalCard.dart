@@ -9,15 +9,22 @@ class JournalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final date =
+        '${entry.createdAt.day.toString().padLeft(2, '0')}/'
+        '${entry.createdAt.month.toString().padLeft(2, '0')}/'
+        '${entry.createdAt.year}';
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(entry.title, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
-            Text(entry.note),
+            Text(entry.note, textAlign: TextAlign.center),
+            const SizedBox(height: 8),
+            Text(date, textAlign: TextAlign.center),
           ],
         ),
       ),
