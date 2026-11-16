@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _controller = HomePageController();
+    _controller.sortEntries();
   }
 
   @override
@@ -84,8 +85,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            for (final entry in _controller.sortedEntries)
-              JournalCard(entry: entry),
+            for (final entry in _controller.entries) JournalCard(entry: entry),
           ],
         ),
       ),

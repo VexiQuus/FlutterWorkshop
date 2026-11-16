@@ -33,9 +33,8 @@ class HomePageController extends ChangeNotifier {
     ),
   ];
 
-  List<JournalEntry> get sortedEntries {
-    final sorted = List<JournalEntry>.of(entries);
-    sorted.sort((a, b) {
+  void sortEntries() {
+    entries.sort((a, b) {
       switch (sortOption) {
         case HomePageSortOption.nameAscending:
           return a.title.toLowerCase().compareTo(b.title.toLowerCase());
@@ -47,7 +46,6 @@ class HomePageController extends ChangeNotifier {
           return b.createdAt.compareTo(a.createdAt);
       }
     });
-    return sorted;
   }
 
   String sortOptionLabel(HomePageSortOption option) {
@@ -65,6 +63,7 @@ class HomePageController extends ChangeNotifier {
     }
 
     sortOption = option;
+    sortEntries();
     notifyListeners();
   }
 
@@ -80,6 +79,7 @@ class HomePageController extends ChangeNotifier {
 
     if (entry != null && context.mounted) {
       entries.insert(0, entry);
+      sortEntries();
       notifyListeners();
     }
   }
