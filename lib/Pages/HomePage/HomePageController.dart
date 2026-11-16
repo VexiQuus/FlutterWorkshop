@@ -67,9 +67,10 @@ class HomePageController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void openDetail(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (_) => const DetailPage()));
+  void openDetail(BuildContext context, JournalEntry entry) {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute<void>(builder: (_) => DetailPage(entry: entry)));
   }
 
   Future<void> openAdd(BuildContext context) async {

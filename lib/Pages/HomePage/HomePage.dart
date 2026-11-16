@@ -46,10 +46,6 @@ class _HomePageState extends State<HomePage> {
               spacing: 8,
               children: [
                 ElevatedButton(
-                  onPressed: () => _controller.openDetail(context),
-                  child: const Text('Detail'),
-                ),
-                ElevatedButton(
                   onPressed: () => _controller.openAdd(context),
                   child: const Text('Add'),
                 ),
@@ -85,7 +81,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            for (final entry in _controller.entries) JournalCard(entry: entry),
+            for (final entry in _controller.entries)
+              JournalCard(
+                entry: entry,
+                onTap: () => _controller.openDetail(context, entry),
+              ),
           ],
         ),
       ),
