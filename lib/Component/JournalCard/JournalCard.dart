@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+
+import '../../Models/JournalEntry.dart';
+
+class JournalCard extends StatelessWidget {
+  const JournalCard({super.key, required this.entry});
+
+  final JournalEntry entry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(entry.title, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 8),
+            Text(entry.note),
+          ],
+        ),
+      ),
+    );
+  }
+}
