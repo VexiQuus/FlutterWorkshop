@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../Models/JournalEntry.dart';
@@ -31,6 +33,11 @@ class JournalCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 8),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: _photo(context, height: 160),
+                ),
+                const SizedBox(height: 8),
                 Text(entry.note, textAlign: TextAlign.center),
                 const SizedBox(height: 8),
                 Text(date, textAlign: TextAlign.center),
@@ -38,6 +45,36 @@ class JournalCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _photo(BuildContext context, {required double height}) {
+    final path = entry.imagePath;
+    if (path == null || path.isEmpty) {
+      return _photoPlaceholder(context, height);
+    }
+
+    return Image.file(
+      File(path),
+      height: height,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) =>
+          _photoPlaceholder(context, height),
+    );
+  }
+
+  Widget _photoPlaceholder(BuildContext context, double height) {
+    return Container(
+      height: height,
+      width: double.infinity,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      alignment: Alignment.center,
+      child: Icon(
+        Icons.image_outlined,
+        size: 36,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../Models/JournalEntry.dart';
@@ -182,19 +183,37 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image != null && mounted) {
-        setState(() => _imagePath = image.path);
+        final directory = await getApplicationDocumentsDirectory();
+        final extension = image.name.contains('.')
+            ? image.name.split('.').last
+            : 'jpg';
+        final savedImage = await File(image.path).copy(
+          '${directory.path}${Platform.pathSeparator}'
+          'journal_${DateTime.now().microsecondsSinceEpoch}.$extension',
+        );
+        if (mounted) {
+          setState(() => _imagePath = savedImage.path);
+        }
       }
     } on PlatformException catch (error) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(
-              content: Text('Could not select an image: ${error.message}'),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-          );
-      }
+      _showImageError('Could not select an image: ${error.message}');
+    } on FileSystemException catch (error) {
+      _showImageError('Could not save the selected image: ${error.message}');
+    } on Exception catch (error) {
+      _showImageError('Could not save the selected image: $error');
+    }
+  }
+
+  void _showImageError(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../../Models/JournalEntry.dart';
@@ -88,6 +90,11 @@ class _DetailPageState extends State<DetailPage> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 16),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: _photo(context),
+                      ),
+                      const SizedBox(height: 16),
                       Expanded(
                         child: Center(
                           child: SingleChildScrollView(
@@ -106,6 +113,35 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _photo(BuildContext context) {
+    final path = _entry.imagePath;
+    if (path == null || path.isEmpty) {
+      return _photoPlaceholder(context);
+    }
+
+    return Image.file(
+      File(path),
+      height: 140,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) => _photoPlaceholder(context),
+    );
+  }
+
+  Widget _photoPlaceholder(BuildContext context) {
+    return Container(
+      height: 140,
+      width: double.infinity,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      alignment: Alignment.center,
+      child: Icon(
+        Icons.image_outlined,
+        size: 36,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
     );
   }
