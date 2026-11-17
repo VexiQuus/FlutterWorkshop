@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 
 import '../../Component/JournalCard/JournalCard.dart';
 import '../../Models/JournalEntry.dart';
@@ -15,12 +16,37 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final HomePageController _controller;
+  late final List<JournalEntry> _initialEntries;
+  bool _isControllerInitialized = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isControllerInitialized) {
+      return;
+    }
+
+    _isControllerInitialized = true;
+    final strings = AppLocalizations.of(context)!;
+    _initialEntries = [
+      JournalEntry(
+        title: strings.sampleBeginningTitle,
+        note: strings.sampleBeginningNote,
+        createdAt: DateTime(2026, 11, 1),
+      ),
+      JournalEntry(
+        title: strings.sampleAfternoonTitle,
+        note: strings.sampleAfternoonNote,
+        createdAt: DateTime(2026, 11, 2),
+      ),
+      JournalEntry(
+        title: strings.sampleRememberTitle,
+        note: strings.sampleRememberNote,
+        createdAt: DateTime(2026, 11, 3),
+      ),
+    ];
     _controller = HomePageController();
-    unawaited(_controller.loadEntries());
+    unawaited(_controller.loadEntries(initialEntries: _initialEntries));
   }
 
   @override
@@ -29,20 +55,52 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  String _errorMessage(HomePageError error, AppLocalizations strings) {
+    return switch (error.code) {
+      HomePageErrorCode.initialEntriesSave => strings.initialEntriesSaveError,
+      HomePageErrorCode.storedEntriesNotList =>
+        strings.storedEntriesNotListError,
+      HomePageErrorCode.readSavedEntries => strings.readSavedEntriesError(
+        error.details ?? '',
+      ),
+      HomePageErrorCode.invalidSavedEntries => strings.invalidSavedEntriesError(
+        error.details ?? '',
+      ),
+      HomePageErrorCode.loadEntries => strings.loadEntriesError(
+        error.details ?? '',
+      ),
+      HomePageErrorCode.preferencesRejectedEntries =>
+        strings.preferencesRejectedEntriesError,
+      HomePageErrorCode.saveEntries => strings.saveEntriesError(
+        error.details ?? '',
+      ),
+    };
+  }
+
+  String _sortOptionLabel(HomePageSortOption option, AppLocalizations strings) {
+    return switch (option) {
+      HomePageSortOption.nameAscending => strings.sortNameAscending,
+      HomePageSortOption.nameDescending => strings.sortNameDescending,
+      HomePageSortOption.dateAscending => strings.sortDateAscending,
+      HomePageSortOption.dateDescending => strings.sortDateDescending,
+    };
+  }
+
   Future<bool?> _confirmDelete(JournalEntry entry) {
+    final strings = AppLocalizations.of(context)!;
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete journal entry?'),
-        content: Text('Delete "${entry.title}"? This cannot be undone.'),
+        title: Text(strings.deleteJournalEntryTitle),
+        content: Text(strings.deleteJournalEntryConfirmation(entry.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(strings.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Delete'),
+            child: Text(strings.delete),
           ),
         ],
       ),
@@ -51,19 +109,20 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = AppLocalizations.of(context)!;
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, _) => Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            tooltip: 'Settings',
+            tooltip: strings.settings,
             onPressed: () => _controller.openSettings(context),
             icon: const Icon(Icons.settings),
           ),
-          title: const Text('List'),
+          title: Text(strings.listPageTitle),
           actions: [
             IconButton(
-              tooltip: 'Add journal entry',
+              tooltip: strings.addJournalEntryTooltip,
               onPressed: _controller.isLoading || _controller.loadError != null
                   ? null
                   : () => _controller.openAdd(context),
@@ -81,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        _controller.loadError!,
+                        _errorMessage(_controller.loadError!, strings),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
@@ -89,8 +148,12 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton(
-                        onPressed: () => unawaited(_controller.loadEntries()),
-                        child: const Text('Retry'),
+                        onPressed: () => unawaited(
+                          _controller.loadEntries(
+                            initialEntries: _initialEntries,
+                          ),
+                        ),
+                        child: Text(strings.retry),
                       ),
                     ],
                   ),
@@ -103,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: Text(
-                        _controller.storageError!,
+                        _errorMessage(_controller.storageError!, strings),
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -111,7 +174,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   Text(
-                    'List',
+                    strings.listPageTitle,
                     style: Theme.of(context).textTheme.displayLarge,
                     textAlign: TextAlign.center,
                   ),
@@ -120,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Expanded(
                         child: Text(
-                          'Journal entries',
+                          strings.journalEntries,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
@@ -135,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                           for (final option in HomePageSortOption.values)
                             DropdownMenuItem(
                               value: option,
-                              child: Text(_controller.sortOptionLabel(option)),
+                              child: Text(_sortOptionLabel(option, strings)),
                             ),
                         ],
                       ),

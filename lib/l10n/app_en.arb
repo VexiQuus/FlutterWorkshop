@@ -1,0 +1,113 @@
+{
+  "@@locale": "en",
+  "appTitle": "Flutter Workshop",
+  "listPageTitle": "List",
+  "journalEntries": "Journal entries",
+  "settings": "Settings",
+  "landingPageTitle": "Landing Page",
+  "landingPageWelcome": "Welcome to the Landing Page!",
+  "sampleBeginningTitle": "A New Beginning",
+  "sampleBeginningNote": "Started writing in my journal today.",
+  "sampleAfternoonTitle": "A Quiet Afternoon",
+  "sampleAfternoonNote": "Enjoyed a peaceful walk and some time to reflect.",
+  "sampleRememberTitle": "Something to Remember",
+  "sampleRememberNote": "Small moments can make an ordinary day special.",
+  "addJournalEntryTooltip": "Add journal entry",
+  "editJournalEntryTooltip": "Edit journal entry",
+  "deleteJournalEntryTitle": "Delete journal entry?",
+  "deleteJournalEntryConfirmation": "Delete \"{title}\"? This cannot be undone.",
+  "@deleteJournalEntryConfirmation": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "retry": "Retry",
+  "sortNameAscending": "Name (A-Z)",
+  "sortNameDescending": "Name (Z-A)",
+  "sortDateAscending": "Date (oldest first)",
+  "sortDateDescending": "Date (newest first)",
+  "initialEntriesSaveError": "Could not save the initial journal entries.",
+  "storedEntriesNotListError": "Stored journal entries are not a list.",
+  "readSavedEntriesError": "Could not read saved journal entries: {details}",
+  "@readSavedEntriesError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidSavedEntriesError": "Saved journal entries have an invalid format: {details}",
+  "@invalidSavedEntriesError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "loadEntriesError": "Could not load journal entries: {details}",
+  "@loadEntriesError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "preferencesRejectedEntriesError": "The preferences store rejected the journal data.",
+  "saveEntriesError": "Could not save journal entries: {details}",
+  "@saveEntriesError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "discardChangesTitle": "Discard changes?",
+  "discardChangesConfirmation": "Your changes will not be saved. Leave this page?",
+  "keepEditing": "Keep editing",
+  "discard": "Discard",
+  "chooseFromGallery": "Choose from gallery",
+  "takePhoto": "Take a photo",
+  "cameraPermissionName": "camera",
+  "photoLibraryPermissionName": "photo library",
+  "permissionRequiredTitle": "Permission required",
+  "photoPermissionExplanation": "Access to the {permission} is needed to add a photo to your journal entry. You can enable it in app settings.",
+  "@photoPermissionExplanation": {
+    "placeholders": {
+      "permission": {
+        "type": "String"
+      }
+    }
+  },
+  "openSettings": "Open settings",
+  "openAppSettingsError": "Could not open app settings.",
+  "selectImageError": "Could not select an image: {details}",
+  "@selectImageError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "saveImageError": "Could not save the selected image: {details}",
+  "@saveImageError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "missingTitleError": "Title is missing. Please enter a title before saving.",
+  "add": "Add",
+  "edit": "Edit",
+  "title": "Title",
+  "titleRequiredError": "Please enter a title",
+  "optionalNote": "Note (optional)",
+  "addPhoto": "Add photo",
+  "selectedImageUnavailable": "Selected image is unavailable.",
+  "save": "Save",
+  "saveChanges": "Save changes"
+}

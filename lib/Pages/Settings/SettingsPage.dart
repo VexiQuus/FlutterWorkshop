@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 
 import 'SettingsPageController.dart';
 
@@ -8,15 +9,16 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const controller = SettingsPageController();
+    final strings = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(onPressed: () => controller.goBack(context)),
-        title: const Text('Settings'),
+        title: Text(strings.settings),
       ),
       body: Center(
         child: Text(
-          'Settings',
+          strings.settings,
           style: Theme.of(context).textTheme.displayLarge,
         ),
       ),

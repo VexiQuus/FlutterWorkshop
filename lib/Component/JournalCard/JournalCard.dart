@@ -12,10 +12,8 @@ class JournalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final date =
-        '${entry.createdAt.day.toString().padLeft(2, '0')}/'
-        '${entry.createdAt.month.toString().padLeft(2, '0')}/'
-        '${entry.createdAt.year}';
+    final date = MaterialLocalizations.of(context)
+        .formatShortDate(entry.createdAt);
 
     return SizedBox(
       width: double.infinity,

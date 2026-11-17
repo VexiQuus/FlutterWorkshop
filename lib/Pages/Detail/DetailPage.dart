@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 
 import '../../Models/JournalEntry.dart';
 import '../Add/AddPage.dart';
@@ -37,10 +38,9 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     const controller = DetailPageController();
-    final date =
-        '${_entry.createdAt.day.toString().padLeft(2, '0')}/'
-        '${_entry.createdAt.month.toString().padLeft(2, '0')}/'
-        '${_entry.createdAt.year}';
+    final date = MaterialLocalizations.of(context)
+        .formatShortDate(_entry.createdAt);
+    final strings = AppLocalizations.of(context)!;
 
     return PopScope<JournalEntry>(
       canPop: false,
@@ -57,7 +57,7 @@ class _DetailPageState extends State<DetailPage> {
           title: Text(_entry.title),
           actions: [
             IconButton(
-              tooltip: 'Edit journal entry',
+              tooltip: strings.editJournalEntryTooltip,
               onPressed: _editEntry,
               icon: const Icon(Icons.edit),
             ),

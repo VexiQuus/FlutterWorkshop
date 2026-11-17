@@ -15,36 +15,35 @@ enum HomePageSortOption {
   dateDescending,
 }
 
+enum HomePageErrorCode {
+  initialEntriesSave,
+  storedEntriesNotList,
+  readSavedEntries,
+  invalidSavedEntries,
+  loadEntries,
+  preferencesRejectedEntries,
+  saveEntries,
+}
+
+class HomePageError {
+  const HomePageError(this.code, {this.details});
+
+  final HomePageErrorCode code;
+  final String? details;
+}
+
 class HomePageController extends ChangeNotifier {
   static const _entriesStorageKey = 'journal_entries';
 
   HomePageSortOption sortOption = HomePageSortOption.nameAscending;
   final List<JournalEntry> entries = [];
   bool isLoading = true;
-  String? loadError;
-  String? storageError;
+  HomePageError? loadError;
+  HomePageError? storageError;
   Future<void> _saveQueue = Future<void>.value();
   bool _disposed = false;
 
-  static final List<JournalEntry> _initialEntries = [
-    JournalEntry(
-      title: 'A New Beginning',
-      note: 'Started writing in my journal today.',
-      createdAt: DateTime(2026, 11, 1),
-    ),
-    JournalEntry(
-      title: 'A Quiet Afternoon',
-      note: 'Enjoyed a peaceful walk and some time to reflect.',
-      createdAt: DateTime(2026, 11, 2),
-    ),
-    JournalEntry(
-      title: 'Something to Remember',
-      note: 'Small moments can make an ordinary day special.',
-      createdAt: DateTime(2026, 11, 3),
-    ),
-  ];
-
-  Future<void> loadEntries() async {
+  Future<void> loadEntries({required List<JournalEntry> initialEntries}) async {
     isLoading = true;
     loadError = null;
     _notifyListeners();
@@ -56,18 +55,20 @@ class HomePageController extends ChangeNotifier {
       if (storedEntries == null) {
         entries
           ..clear()
-          ..addAll(_initialEntries);
+          ..addAll(initialEntries);
         final saved = await preferences.setString(
           _entriesStorageKey,
           jsonEncode(entries.map((entry) => entry.toJson()).toList()),
         );
         if (!saved) {
-          storageError = 'Could not save the initial journal entries.';
+          storageError = const HomePageError(
+            HomePageErrorCode.initialEntriesSave,
+          );
         }
       } else {
         final decoded = jsonDecode(storedEntries);
         if (decoded is! List) {
-          throw const FormatException('Stored journal entries are not a list.');
+          throw const FormatException('stored_entries_not_list');
         }
 
         entries
@@ -83,11 +84,22 @@ class HomePageController extends ChangeNotifier {
 
       sortEntries();
     } on FormatException catch (error) {
-      loadError = 'Could not read saved journal entries: ${error.message}';
+      loadError = error.message == 'stored_entries_not_list'
+          ? const HomePageError(HomePageErrorCode.storedEntriesNotList)
+          : HomePageError(
+              HomePageErrorCode.readSavedEntries,
+              details: error.message,
+            );
     } on TypeError catch (error) {
-      loadError = 'Saved journal entries have an invalid format: $error';
+      loadError = HomePageError(
+        HomePageErrorCode.invalidSavedEntries,
+        details: error.toString(),
+      );
     } on Exception catch (error) {
-      loadError = 'Could not load journal entries: $error';
+      loadError = HomePageError(
+        HomePageErrorCode.loadEntries,
+        details: error.toString(),
+      );
     } finally {
       isLoading = false;
       _notifyListeners();
@@ -104,9 +116,12 @@ class HomePageController extends ChangeNotifier {
         );
         storageError = saved
             ? null
-            : 'The preferences store rejected the journal data.';
+            : const HomePageError(HomePageErrorCode.preferencesRejectedEntries);
       } on Exception catch (error) {
-        storageError = 'Could not save journal entries: $error';
+        storageError = HomePageError(
+          HomePageErrorCode.saveEntries,
+          details: error.toString(),
+        );
       }
       _notifyListeners();
     });
@@ -126,15 +141,6 @@ class HomePageController extends ChangeNotifier {
           return b.createdAt.compareTo(a.createdAt);
       }
     });
-  }
-
-  String sortOptionLabel(HomePageSortOption option) {
-    return switch (option) {
-      HomePageSortOption.nameAscending => 'Name (A-Z)',
-      HomePageSortOption.nameDescending => 'Name (Z-A)',
-      HomePageSortOption.dateAscending => 'Date (oldest first)',
-      HomePageSortOption.dateDescending => 'Date (newest first)',
-    };
   }
 
   void setSortOption(HomePageSortOption option) {

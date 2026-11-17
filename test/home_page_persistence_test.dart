@@ -29,7 +29,7 @@ void main() {
       });
 
       final controller = HomePageController();
-      await controller.loadEntries();
+      await controller.loadEntries(initialEntries: []);
 
       expect(controller.entries, hasLength(2));
       final savedEntry = controller.entries.firstWhere(
@@ -59,7 +59,7 @@ void main() {
       controller.dispose();
 
       final reloadedController = HomePageController();
-      await reloadedController.loadEntries();
+      await reloadedController.loadEntries(initialEntries: []);
 
       expect(reloadedController.entries, hasLength(2));
       expect(
