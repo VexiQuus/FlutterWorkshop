@@ -73,10 +73,21 @@ class HomePageController extends ChangeNotifier {
     }
   }
 
-  void openDetail(BuildContext context, JournalEntry entry) {
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute<void>(builder: (_) => DetailPage(entry: entry)));
+  Future<void> openDetail(BuildContext context, JournalEntry entry) async {
+    final updatedEntry = await Navigator.of(context).push<JournalEntry>(
+      MaterialPageRoute<JournalEntry>(
+        builder: (_) => DetailPage(entry: entry),
+      ),
+    );
+
+    if (updatedEntry != null && context.mounted) {
+      final index = entries.indexOf(entry);
+      if (index != -1) {
+        entries[index] = updatedEntry;
+        sortEntries();
+        notifyListeners();
+      }
+    }
   }
 
   Future<void> openAdd(BuildContext context) async {

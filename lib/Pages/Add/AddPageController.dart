@@ -5,19 +5,16 @@ import '../../Models/JournalEntry.dart';
 class AddPageController {
   const AddPageController();
 
-  void goBack(BuildContext context) {
-    Navigator.of(context).pop();
-  }
-
   void save(
     BuildContext context, {
     required String title,
     required String note,
+    JournalEntry? existingEntry,
   }) {
     final entry = JournalEntry(
       title: title,
       note: note,
-      createdAt: DateTime.now(),
+      createdAt: existingEntry?.createdAt ?? DateTime.now(),
     );
     Navigator.of(context).pop<JournalEntry>(entry);
   }
