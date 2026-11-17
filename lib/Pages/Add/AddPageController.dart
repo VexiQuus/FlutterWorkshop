@@ -10,11 +10,13 @@ class AddPageController {
     required String title,
     required String note,
     JournalEntry? existingEntry,
+    String? imagePath,
   }) {
     final entry = JournalEntry(
       title: title,
       note: note,
       createdAt: existingEntry?.createdAt ?? DateTime.now(),
+      imagePath: imagePath ?? existingEntry?.imagePath,
     );
     Navigator.of(context).pop<JournalEntry>(entry);
   }

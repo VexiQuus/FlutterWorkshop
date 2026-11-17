@@ -1,4 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../Models/JournalEntry.dart';
 import 'AddPageController.dart';
@@ -20,18 +25,21 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
   bool _allowPop = false;
   bool _isConfirmingExit = false;
   double _dragOffset = 0;
+  String? _imagePath;
   late final AnimationController _snapBackController;
   Animation<double>? _snapBackAnimation;
 
   bool get _hasUnsavedChanges =>
       _titleController.text.trim() != (widget.entry?.title ?? '') ||
-      _noteController.text.trim() != (widget.entry?.note ?? '');
+      _noteController.text.trim() != (widget.entry?.note ?? '') ||
+      _imagePath != widget.entry?.imagePath;
 
   @override
   void initState() {
     super.initState();
     _titleController.text = widget.entry?.title ?? '';
     _noteController.text = widget.entry?.note ?? '';
+    _imagePath = widget.entry?.imagePath;
     _snapBackController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 220),
@@ -129,6 +137,99 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
     }
   }
 
+  Future<void> _pickImage() async {
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Choose from gallery'),
+              onTap: () => Navigator.pop(context, ImageSource.gallery),
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Take a photo'),
+              onTap: () => Navigator.pop(context, ImageSource.camera),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source == null || !mounted) {
+      return;
+    }
+
+    final permission = source == ImageSource.camera
+        ? Permission.camera
+        : Permission.photos;
+    var status = await permission.status;
+    if (!status.isGranted && !status.isLimited) {
+      status = await permission.request();
+    }
+
+    if (!status.isGranted && !status.isLimited) {
+      if (mounted) {
+        await _showPermissionDialog(
+          source == ImageSource.camera ? 'camera' : 'photo library',
+        );
+      }
+      return;
+    }
+
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image != null && mounted) {
+        setState(() => _imagePath = image.path);
+      }
+    } on PlatformException catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text('Could not select an image: ${error.message}'),
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+      }
+    }
+  }
+
+  Future<void> _showPermissionDialog(String permissionName) async {
+    final openSettings = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Permission required'),
+        content: Text(
+          'Access to the $permissionName is needed to add a photo to your '
+          'journal entry. You can enable it in app settings.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Open settings'),
+          ),
+        ],
+      ),
+    );
+
+    if (openSettings == true) {
+      final didOpenSettings = await openAppSettings();
+      if (!didOpenSettings && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not open app settings.')),
+        );
+      }
+    }
+  }
+
   Future<void> _save() async {
     if (_titleController.text.trim().isEmpty) {
       final messenger = ScaffoldMessenger.of(context);
@@ -170,6 +271,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
       title: _titleController.text.trim(),
       note: _noteController.text.trim(),
       existingEntry: widget.entry,
+      imagePath: _imagePath,
     );
   }
 
@@ -243,6 +345,28 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                         maxLines: 5,
                         minLines: 3,
                       ),
+                      const SizedBox(height: 16),
+                      OutlinedButton.icon(
+                        onPressed: _pickImage,
+                        icon: const Icon(Icons.add_a_photo),
+                        label: const Text('Add photo'),
+                      ),
+                      if (_imagePath != null) ...[
+                        const SizedBox(height: 12),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            File(_imagePath!),
+                            height: 220,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Center(
+                                  child: Text('Selected image is unavailable.'),
+                                ),
+                          ),
+                        ),
+                      ],
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: _save,
