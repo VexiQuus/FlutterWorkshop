@@ -1,0 +1,174 @@
+{
+  "@@locale": "zh_TW",
+  "appTitle": "Flutter 工作坊",
+  "listPageTitle": "日記列表",
+  "journalEntries": "日記",
+  "settings": "設定",
+  "landingPageTitle": "首頁",
+  "landingPageWelcome": "歡迎來到首頁！",
+  "sampleBeginningTitle": "新的開始",
+  "sampleBeginningNote": "今天開始寫日記了。",
+  "sampleAfternoonTitle": "寧靜的午後",
+  "sampleAfternoonNote": "享受了一段平靜的散步時光，也留些時間沉澱思緒。",
+  "sampleRememberTitle": "值得記住的事",
+  "sampleRememberNote": "平凡日子裡的小片刻，也能讓一天變得特別。",
+  "addJournalEntryTooltip": "新增日記",
+  "editJournalEntryTooltip": "編輯日記",
+  "deleteJournalEntryTitle": "要刪除這篇日記嗎？",
+  "deleteJournalEntryConfirmation": "確定要刪除「{title}」嗎？此操作無法復原。",
+  "@deleteJournalEntryConfirmation": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "取消",
+  "delete": "刪除",
+  "retry": "重試",
+  "sortNameAscending": "名稱（A-Z）",
+  "sortNameDescending": "名稱（Z-A）",
+  "sortDateAscending": "日期（最舊優先）",
+  "sortDateDescending": "日期（最新優先）",
+  "initialEntriesSaveError": "無法儲存初始日記。",
+  "storedEntriesNotListError": "儲存的日記資料格式不正確。",
+  "readSavedEntriesError": "無法讀取已儲存的日記：{details}",
+  "@readSavedEntriesError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "invalidSavedEntriesError": "已儲存的日記格式無效：{details}",
+  "@invalidSavedEntriesError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "loadEntriesError": "無法載入日記：{details}",
+  "@loadEntriesError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "preferencesRejectedEntriesError": "偏好設定儲存區拒絕儲存日記資料。",
+  "saveEntriesError": "無法儲存日記：{details}",
+  "@saveEntriesError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "discardChangesTitle": "要捨棄變更嗎？",
+  "discardChangesConfirmation": "您的變更將不會儲存。確定要離開此頁面嗎？",
+  "keepEditing": "繼續編輯",
+  "discard": "捨棄",
+  "chooseFromGallery": "從相簿選取",
+  "takePhoto": "拍攝照片",
+  "cameraPermissionName": "相機",
+  "photoLibraryPermissionName": "相片圖庫",
+  "permissionRequiredTitle": "需要權限",
+  "photoPermissionExplanation": "新增照片至日記需要存取{permission}。您可以在應用程式設定中啟用權限。",
+  "@photoPermissionExplanation": {
+    "placeholders": {
+      "permission": {
+        "type": "String"
+      }
+    }
+  },
+  "openSettings": "開啟設定",
+  "openAppSettingsError": "無法開啟應用程式設定。",
+  "selectImageError": "無法選取圖片：{details}",
+  "@selectImageError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "saveImageError": "無法儲存所選圖片：{details}",
+  "@saveImageError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "missingTitleError": "尚未輸入標題，請先輸入標題再儲存。",
+  "add": "新增",
+  "edit": "編輯",
+  "title": "標題",
+  "titleRequiredError": "請輸入標題",
+  "optionalNote": "內容（選填）",
+  "addPhoto": "新增照片",
+  "selectedImageUnavailable": "無法使用所選圖片。",
+  "save": "儲存",
+  "saveChanges": "儲存變更",
+  "languageSettingTitle": "語言",
+  "languageOptionEnglish": "English",
+  "languageOptionTraditionalChinese": "繁體中文",
+  "languagePreferenceSaveError": "無法儲存語言設定：{details}",
+  "@languagePreferenceSaveError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "languagePreferenceSaveRejected": "無法儲存語言設定。",
+  "languagePreferenceLoadError": "無法載入語言設定：{details}",
+  "@languagePreferenceLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "createdOnDate": "{date} 建立",
+  "@createdOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "localStorageSizeTitle": "本機儲存空間",
+  "localStorageUsage": "已使用 {size} KB",
+  "@localStorageUsage": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "localStorageSizeLoadError": "無法讀取本機儲存空間大小：{details}",
+  "@localStorageSizeLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "formatClearJournalData": "格式化／清除",
+  "clearAllFirstTitle": "要清除所有日記資料嗎？",
+  "clearAllFirstMessage": "這會永久刪除所有日記及其照片。",
+  "continueAction": "繼續",
+  "clearAllSecondTitle": "再次確認",
+  "clearAllSecondMessage": "確定要永久刪除嗎？此操作無法復原。",
+  "clearAllConfirm": "全部刪除",
+  "clearAllSuccess": "所有日記及其照片都已清除。",
+  "clearAllError": "無法清除日記資料：{details}",
+  "@clearAllError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  }
+}

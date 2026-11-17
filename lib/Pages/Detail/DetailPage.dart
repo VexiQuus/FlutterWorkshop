@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 
 import '../../Models/JournalEntry.dart';
 import '../Add/AddPage.dart';
@@ -35,10 +38,10 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     const controller = DetailPageController();
-    final date =
-        '${_entry.createdAt.day.toString().padLeft(2, '0')}/'
-        '${_entry.createdAt.month.toString().padLeft(2, '0')}/'
-        '${_entry.createdAt.year}';
+    final date = MaterialLocalizations.of(context)
+        .formatShortDate(_entry.createdAt);
+    final strings = AppLocalizations.of(context)!;
+    final createdOn = strings.createdOnDate(date);
 
     return PopScope<JournalEntry>(
       canPop: false,
@@ -55,7 +58,7 @@ class _DetailPageState extends State<DetailPage> {
           title: Text(_entry.title),
           actions: [
             IconButton(
-              tooltip: 'Edit journal entry',
+              tooltip: strings.editJournalEntryTooltip,
               onPressed: _editEntry,
               icon: const Icon(Icons.edit),
             ),
@@ -76,7 +79,7 @@ class _DetailPageState extends State<DetailPage> {
                       Align(
                         alignment: Alignment.topRight,
                         child: Text(
-                          date,
+                          createdOn,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
@@ -86,6 +89,11 @@ class _DetailPageState extends State<DetailPage> {
                         style: Theme.of(context).textTheme.headlineSmall
                             ?.copyWith(fontWeight: FontWeight.bold),
                         textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 16),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: _photo(context),
                       ),
                       const SizedBox(height: 16),
                       Expanded(
@@ -106,6 +114,35 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _photo(BuildContext context) {
+    final path = _entry.imagePath;
+    if (path == null || path.isEmpty) {
+      return _photoPlaceholder(context);
+    }
+
+    return Image.file(
+      File(path),
+      height: 140,
+      width: double.infinity,
+      fit: BoxFit.cover,
+      errorBuilder: (context, error, stackTrace) => _photoPlaceholder(context),
+    );
+  }
+
+  Widget _photoPlaceholder(BuildContext context) {
+    return Container(
+      height: 140,
+      width: double.infinity,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      alignment: Alignment.center,
+      child: Icon(
+        Icons.image_outlined,
+        size: 36,
+        color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
     );
   }
