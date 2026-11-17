@@ -186,6 +186,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get saveChanges => '儲存變更';
+
+  @override
+  String get languageSettingTitle => '語言';
+
+  @override
+  String get languageOptionEnglish => 'English';
+
+  @override
+  String get languageOptionTraditionalChinese => '繁體中文';
+
+  @override
+  String languagePreferenceSaveError(String details) {
+    return '無法儲存語言設定：$details';
+  }
+
+  @override
+  String get languagePreferenceSaveRejected => '無法儲存語言設定。';
+
+  @override
+  String languagePreferenceLoadError(String details) {
+    return '無法載入語言設定：$details';
+  }
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -369,4 +391,26 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get saveChanges => '儲存變更';
+
+  @override
+  String get languageSettingTitle => '語言';
+
+  @override
+  String get languageOptionEnglish => 'English';
+
+  @override
+  String get languageOptionTraditionalChinese => '繁體中文';
+
+  @override
+  String languagePreferenceSaveError(String details) {
+    return '無法儲存語言設定：$details';
+  }
+
+  @override
+  String get languagePreferenceSaveRejected => '無法儲存語言設定。';
+
+  @override
+  String languagePreferenceLoadError(String details) {
+    return '無法載入語言設定：$details';
+  }
 }

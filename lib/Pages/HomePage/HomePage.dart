@@ -8,7 +8,9 @@ import '../../Models/JournalEntry.dart';
 import 'HomePageController.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.onLocaleChanged});
+
+  final Future<bool> Function(Locale locale) onLocaleChanged;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -116,7 +118,10 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           leading: IconButton(
             tooltip: strings.settings,
-            onPressed: () => _controller.openSettings(context),
+            onPressed: () => _controller.openSettings(
+              context,
+              onLocaleChanged: widget.onLocaleChanged,
+            ),
             icon: const Icon(Icons.settings),
           ),
           title: Text(strings.listPageTitle),

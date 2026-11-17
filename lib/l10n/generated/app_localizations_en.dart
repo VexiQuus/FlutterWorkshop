@@ -193,4 +193,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveChanges => 'Save changes';
+
+  @override
+  String get languageSettingTitle => 'Language';
+
+  @override
+  String get languageOptionEnglish => 'English';
+
+  @override
+  String get languageOptionTraditionalChinese => 'Traditional Chinese';
+
+  @override
+  String languagePreferenceSaveError(String details) {
+    return 'Could not save the language preference: $details';
+  }
+
+  @override
+  String get languagePreferenceSaveRejected =>
+      'The language preference could not be saved.';
+
+  @override
+  String languagePreferenceLoadError(String details) {
+    return 'Could not load the language preference: $details';
+  }
 }

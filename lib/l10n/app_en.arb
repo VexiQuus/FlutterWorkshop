@@ -109,5 +109,25 @@
   "addPhoto": "Add photo",
   "selectedImageUnavailable": "Selected image is unavailable.",
   "save": "Save",
-  "saveChanges": "Save changes"
+  "saveChanges": "Save changes",
+  "languageSettingTitle": "Language",
+  "languageOptionEnglish": "English",
+  "languageOptionTraditionalChinese": "Traditional Chinese",
+  "languagePreferenceSaveError": "Could not save the language preference: {details}",
+  "@languagePreferenceSaveError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "languagePreferenceSaveRejected": "The language preference could not be saved.",
+  "languagePreferenceLoadError": "Could not load the language preference: {details}",
+  "@languagePreferenceLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  }
 }

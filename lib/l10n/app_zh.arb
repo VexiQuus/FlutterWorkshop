@@ -109,5 +109,25 @@
   "addPhoto": "新增照片",
   "selectedImageUnavailable": "無法使用所選圖片。",
   "save": "儲存",
-  "saveChanges": "儲存變更"
+  "saveChanges": "儲存變更",
+  "languageSettingTitle": "語言",
+  "languageOptionEnglish": "English",
+  "languageOptionTraditionalChinese": "繁體中文",
+  "languagePreferenceSaveError": "無法儲存語言設定：{details}",
+  "@languagePreferenceSaveError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "languagePreferenceSaveRejected": "無法儲存語言設定。",
+  "languagePreferenceLoadError": "無法載入語言設定：{details}",
+  "@languagePreferenceLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  }
 }

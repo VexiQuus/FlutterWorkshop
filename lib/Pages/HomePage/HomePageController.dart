@@ -202,9 +202,15 @@ class HomePageController extends ChangeNotifier {
     }
   }
 
-  void openSettings(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (_) => const SettingsPage()));
+  void openSettings(
+    BuildContext context, {
+    required Future<bool> Function(Locale locale) onLocaleChanged,
+  }) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => SettingsPage(onLocaleChanged: onLocaleChanged),
+      ),
+    );
   }
 
   void _notifyListeners() {

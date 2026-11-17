@@ -422,6 +422,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save changes'**
   String get saveChanges;
+
+  /// No description provided for @languageSettingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageSettingTitle;
+
+  /// No description provided for @languageOptionEnglish.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageOptionEnglish;
+
+  /// No description provided for @languageOptionTraditionalChinese.
+  ///
+  /// In en, this message translates to:
+  /// **'Traditional Chinese'**
+  String get languageOptionTraditionalChinese;
+
+  /// No description provided for @languagePreferenceSaveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the language preference: {details}'**
+  String languagePreferenceSaveError(String details);
+
+  /// No description provided for @languagePreferenceSaveRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'The language preference could not be saved.'**
+  String get languagePreferenceSaveRejected;
+
+  /// No description provided for @languagePreferenceLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the language preference: {details}'**
+  String languagePreferenceLoadError(String details);
 }
 
 class _AppLocalizationsDelegate
