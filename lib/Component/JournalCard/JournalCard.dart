@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 
 import '../../Models/JournalEntry.dart';
 
@@ -14,6 +15,7 @@ class JournalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final date = MaterialLocalizations.of(context)
         .formatShortDate(entry.createdAt);
+    final strings = AppLocalizations.of(context)!;
 
     return SizedBox(
       width: double.infinity,
@@ -38,7 +40,7 @@ class JournalCard extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(entry.note, textAlign: TextAlign.center),
                 const SizedBox(height: 8),
-                Text(date, textAlign: TextAlign.center),
+                Text(strings.createdOnDate(date), textAlign: TextAlign.center),
               ],
             ),
           ),

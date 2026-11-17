@@ -458,6 +458,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not load the language preference: {details}'**
   String languagePreferenceLoadError(String details);
+
+  /// No description provided for @createdOnDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Created on {date}'**
+  String createdOnDate(String date);
+
+  /// No description provided for @localStorageSizeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Local storage'**
+  String get localStorageSizeTitle;
+
+  /// No description provided for @localStorageUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} KB used'**
+  String localStorageUsage(int size);
+
+  /// No description provided for @localStorageSizeLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read local storage size: {details}'**
+  String localStorageSizeLoadError(String details);
+
+  /// No description provided for @formatClearJournalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Format / Clear'**
+  String get formatClearJournalData;
+
+  /// No description provided for @clearAllFirstTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all journal data?'**
+  String get clearAllFirstTitle;
+
+  /// No description provided for @clearAllFirstMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently deletes every journal entry and its photos.'**
+  String get clearAllFirstMessage;
+
+  /// No description provided for @continueAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueAction;
+
+  /// No description provided for @clearAllSecondTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Final confirmation'**
+  String get clearAllSecondTitle;
+
+  /// No description provided for @clearAllSecondMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you absolutely sure? This cannot be undone.'**
+  String get clearAllSecondMessage;
+
+  /// No description provided for @clearAllConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete everything'**
+  String get clearAllConfirm;
+
+  /// No description provided for @clearAllSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'All journal entries and photos were cleared.'**
+  String get clearAllSuccess;
+
+  /// No description provided for @clearAllError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not clear journal data: {details}'**
+  String clearAllError(String details);
 }
 
 class _AppLocalizationsDelegate

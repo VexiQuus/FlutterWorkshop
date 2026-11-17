@@ -18,6 +18,9 @@ void main() {
                   children: [
                     Text(strings.listPageTitle),
                     Text(strings.sampleBeginningTitle),
+                    Text(strings.createdOnDate('Nov 17, 2026')),
+                    Text(strings.localStorageUsage(0)),
+                    Text(strings.formatClearJournalData),
                   ],
                 ),
               );
@@ -29,9 +32,15 @@ void main() {
       if (locale.languageCode == 'zh') {
         expect(find.text('日記列表'), findsOneWidget);
         expect(find.text('新的開始'), findsOneWidget);
+        expect(find.text('Nov 17, 2026 建立'), findsOneWidget);
+        expect(find.text('已使用 0 KB'), findsOneWidget);
+        expect(find.text('格式化／清除'), findsOneWidget);
       } else {
         expect(find.text('List'), findsOneWidget);
         expect(find.text('A New Beginning'), findsOneWidget);
+        expect(find.text('Created on Nov 17, 2026'), findsOneWidget);
+        expect(find.text('0 KB used'), findsOneWidget);
+        expect(find.text('Format / Clear'), findsOneWidget);
       }
     });
   }

@@ -216,4 +216,53 @@ class AppLocalizationsEn extends AppLocalizations {
   String languagePreferenceLoadError(String details) {
     return 'Could not load the language preference: $details';
   }
+
+  @override
+  String createdOnDate(String date) {
+    return 'Created on $date';
+  }
+
+  @override
+  String get localStorageSizeTitle => 'Local storage';
+
+  @override
+  String localStorageUsage(int size) {
+    return '$size KB used';
+  }
+
+  @override
+  String localStorageSizeLoadError(String details) {
+    return 'Could not read local storage size: $details';
+  }
+
+  @override
+  String get formatClearJournalData => 'Format / Clear';
+
+  @override
+  String get clearAllFirstTitle => 'Clear all journal data?';
+
+  @override
+  String get clearAllFirstMessage =>
+      'This permanently deletes every journal entry and its photos.';
+
+  @override
+  String get continueAction => 'Continue';
+
+  @override
+  String get clearAllSecondTitle => 'Final confirmation';
+
+  @override
+  String get clearAllSecondMessage =>
+      'Are you absolutely sure? This cannot be undone.';
+
+  @override
+  String get clearAllConfirm => 'Delete everything';
+
+  @override
+  String get clearAllSuccess => 'All journal entries and photos were cleared.';
+
+  @override
+  String clearAllError(String details) {
+    return 'Could not clear journal data: $details';
+  }
 }

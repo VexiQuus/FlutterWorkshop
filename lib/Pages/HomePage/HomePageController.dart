@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Models/JournalEntry.dart';
@@ -182,6 +184,49 @@ class HomePageController extends ChangeNotifier {
     }
   }
 
+  Future<void> clearAllEntriesAndPhotos() async {
+    await _saveQueue;
+
+    final preferences = await SharedPreferences.getInstance();
+    final imagePaths = entries
+        .map((entry) => entry.imagePath)
+        .whereType<String>()
+        .where((path) => path.isNotEmpty)
+        .toSet();
+
+    final documentsDirectory = await getApplicationDocumentsDirectory();
+    final photoFiles = <String, File>{};
+    await for (final entity in documentsDirectory.list(
+      recursive: true,
+      followLinks: false,
+    )) {
+      if (entity is File) {
+        final filePath = entity.absolute.path;
+        final fileName = entity.uri.pathSegments.last;
+        if (fileName.startsWith('journal_') || imagePaths.contains(filePath)) {
+          photoFiles[filePath] = entity;
+        }
+      }
+    }
+
+    final saved = await preferences.setString(_entriesStorageKey, '[]');
+    if (!saved) {
+      throw Exception('The preferences store rejected the journal clear.');
+    }
+
+    entries.clear();
+    loadError = null;
+    isLoading = false;
+    storageError = null;
+    _notifyListeners();
+
+    for (final file in photoFiles.values) {
+      if (await file.exists()) {
+        await file.delete();
+      }
+    }
+  }
+
   Future<void> openDetail(BuildContext context, JournalEntry entry) async {
     final updatedEntry = await Navigator.of(context).push<JournalEntry>(
       MaterialPageRoute<JournalEntry>(builder: (_) => DetailPage(entry: entry)),
@@ -205,10 +250,14 @@ class HomePageController extends ChangeNotifier {
   void openSettings(
     BuildContext context, {
     required Future<bool> Function(Locale locale) onLocaleChanged,
+    required Future<void> Function() onClearAll,
   }) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => SettingsPage(onLocaleChanged: onLocaleChanged),
+        builder: (_) => SettingsPage(
+          onLocaleChanged: onLocaleChanged,
+          onClearAll: onClearAll,
+        ),
       ),
     );
   }

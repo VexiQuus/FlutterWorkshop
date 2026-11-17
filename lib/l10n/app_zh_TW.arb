@@ -129,5 +129,46 @@
         "type": "String"
       }
     }
+  },
+  "createdOnDate": "{date} 建立",
+  "@createdOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "localStorageSizeTitle": "本機儲存空間",
+  "localStorageUsage": "已使用 {size} KB",
+  "@localStorageUsage": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "localStorageSizeLoadError": "無法讀取本機儲存空間大小：{details}",
+  "@localStorageSizeLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "formatClearJournalData": "格式化／清除",
+  "clearAllFirstTitle": "要清除所有日記資料嗎？",
+  "clearAllFirstMessage": "這會永久刪除所有日記及其照片。",
+  "continueAction": "繼續",
+  "clearAllSecondTitle": "再次確認",
+  "clearAllSecondMessage": "確定要永久刪除嗎？此操作無法復原。",
+  "clearAllConfirm": "全部刪除",
+  "clearAllSuccess": "所有日記及其照片都已清除。",
+  "clearAllError": "無法清除日記資料：{details}",
+  "@clearAllError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
   }
 }

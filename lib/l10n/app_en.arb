@@ -129,5 +129,46 @@
         "type": "String"
       }
     }
+  },
+  "createdOnDate": "Created on {date}",
+  "@createdOnDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "localStorageSizeTitle": "Local storage",
+  "localStorageUsage": "{size} KB used",
+  "@localStorageUsage": {
+    "placeholders": {
+      "size": {
+        "type": "int"
+      }
+    }
+  },
+  "localStorageSizeLoadError": "Could not read local storage size: {details}",
+  "@localStorageSizeLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
+  "formatClearJournalData": "Format / Clear",
+  "clearAllFirstTitle": "Clear all journal data?",
+  "clearAllFirstMessage": "This permanently deletes every journal entry and its photos.",
+  "continueAction": "Continue",
+  "clearAllSecondTitle": "Final confirmation",
+  "clearAllSecondMessage": "Are you absolutely sure? This cannot be undone.",
+  "clearAllConfirm": "Delete everything",
+  "clearAllSuccess": "All journal entries and photos were cleared.",
+  "clearAllError": "Could not clear journal data: {details}",
+  "@clearAllError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
   }
 }

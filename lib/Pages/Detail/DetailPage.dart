@@ -41,6 +41,7 @@ class _DetailPageState extends State<DetailPage> {
     final date = MaterialLocalizations.of(context)
         .formatShortDate(_entry.createdAt);
     final strings = AppLocalizations.of(context)!;
+    final createdOn = strings.createdOnDate(date);
 
     return PopScope<JournalEntry>(
       canPop: false,
@@ -78,7 +79,7 @@ class _DetailPageState extends State<DetailPage> {
                       Align(
                         alignment: Alignment.topRight,
                         child: Text(
-                          date,
+                          createdOn,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),

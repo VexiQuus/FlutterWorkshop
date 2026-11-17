@@ -208,6 +208,53 @@ class AppLocalizationsZh extends AppLocalizations {
   String languagePreferenceLoadError(String details) {
     return '無法載入語言設定：$details';
   }
+
+  @override
+  String createdOnDate(String date) {
+    return '$date 建立';
+  }
+
+  @override
+  String get localStorageSizeTitle => '本機儲存空間';
+
+  @override
+  String localStorageUsage(int size) {
+    return '已使用 $size KB';
+  }
+
+  @override
+  String localStorageSizeLoadError(String details) {
+    return '無法讀取本機儲存空間大小：$details';
+  }
+
+  @override
+  String get formatClearJournalData => '格式化／清除';
+
+  @override
+  String get clearAllFirstTitle => '要清除所有日記資料嗎？';
+
+  @override
+  String get clearAllFirstMessage => '這會永久刪除所有日記及其照片。';
+
+  @override
+  String get continueAction => '繼續';
+
+  @override
+  String get clearAllSecondTitle => '再次確認';
+
+  @override
+  String get clearAllSecondMessage => '確定要永久刪除嗎？此操作無法復原。';
+
+  @override
+  String get clearAllConfirm => '全部刪除';
+
+  @override
+  String get clearAllSuccess => '所有日記及其照片都已清除。';
+
+  @override
+  String clearAllError(String details) {
+    return '無法清除日記資料：$details';
+  }
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -412,5 +459,52 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   @override
   String languagePreferenceLoadError(String details) {
     return '無法載入語言設定：$details';
+  }
+
+  @override
+  String createdOnDate(String date) {
+    return '$date 建立';
+  }
+
+  @override
+  String get localStorageSizeTitle => '本機儲存空間';
+
+  @override
+  String localStorageUsage(int size) {
+    return '已使用 $size KB';
+  }
+
+  @override
+  String localStorageSizeLoadError(String details) {
+    return '無法讀取本機儲存空間大小：$details';
+  }
+
+  @override
+  String get formatClearJournalData => '格式化／清除';
+
+  @override
+  String get clearAllFirstTitle => '要清除所有日記資料嗎？';
+
+  @override
+  String get clearAllFirstMessage => '這會永久刪除所有日記及其照片。';
+
+  @override
+  String get continueAction => '繼續';
+
+  @override
+  String get clearAllSecondTitle => '再次確認';
+
+  @override
+  String get clearAllSecondMessage => '確定要永久刪除嗎？此操作無法復原。';
+
+  @override
+  String get clearAllConfirm => '全部刪除';
+
+  @override
+  String get clearAllSuccess => '所有日記及其照片都已清除。';
+
+  @override
+  String clearAllError(String details) {
+    return '無法清除日記資料：$details';
   }
 }

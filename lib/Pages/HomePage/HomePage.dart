@@ -118,10 +118,13 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           leading: IconButton(
             tooltip: strings.settings,
-            onPressed: () => _controller.openSettings(
-              context,
-              onLocaleChanged: widget.onLocaleChanged,
-            ),
+            onPressed: _controller.isLoading
+                ? null
+                : () => _controller.openSettings(
+                    context,
+                    onLocaleChanged: widget.onLocaleChanged,
+                    onClearAll: _controller.clearAllEntriesAndPhotos,
+                  ),
             icon: const Icon(Icons.settings),
           ),
           title: Text(strings.listPageTitle),
