@@ -19,6 +19,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get journalEntries => '日記';
 
   @override
+  String get selectJournalEntry => '選取日記以查看內容。';
+
+  @override
   String get settings => '設定';
 
   @override
@@ -216,6 +219,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get localStorageSizeTitle => '本機儲存空間';
+
+  @override
+  String get appVersionTitle => '應用程式版本';
+
+  @override
+  String appVersionAndBuild(String version, String buildNumber) {
+    return '$version（建置編號 $buildNumber）';
+  }
+
+  @override
+  String appVersionLoadError(String details) {
+    return '無法讀取應用程式版本：$details';
+  }
 
   @override
   String localStorageUsage(int size) {
@@ -271,6 +287,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
   String get journalEntries => '日記';
 
   @override
+  String get selectJournalEntry => '選取日記以查看內容。';
+
+  @override
   String get settings => '設定';
 
   @override
@@ -468,6 +487,19 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get localStorageSizeTitle => '本機儲存空間';
+
+  @override
+  String get appVersionTitle => '應用程式版本';
+
+  @override
+  String appVersionAndBuild(String version, String buildNumber) {
+    return '$version（建置編號 $buildNumber）';
+  }
+
+  @override
+  String appVersionLoadError(String details) {
+    return '無法讀取應用程式版本：$details';
+  }
 
   @override
   String localStorageUsage(int size) {

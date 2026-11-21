@@ -117,6 +117,12 @@ abstract class AppLocalizations {
   /// **'Journal entries'**
   String get journalEntries;
 
+  /// No description provided for @selectJournalEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an entry to see its details.'**
+  String get selectJournalEntry;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
@@ -470,6 +476,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Local storage'**
   String get localStorageSizeTitle;
+
+  /// No description provided for @appVersionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'App version'**
+  String get appVersionTitle;
+
+  /// No description provided for @appVersionAndBuild.
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} (build {buildNumber})'**
+  String appVersionAndBuild(String version, String buildNumber);
+
+  /// No description provided for @appVersionLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read app version: {details}'**
+  String appVersionLoadError(String details);
 
   /// No description provided for @localStorageUsage.
   ///

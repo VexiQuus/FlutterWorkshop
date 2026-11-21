@@ -19,6 +19,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalEntries => 'Journal entries';
 
   @override
+  String get selectJournalEntry => 'Select an entry to see its details.';
+
+  @override
   String get settings => 'Settings';
 
   @override
@@ -224,6 +227,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get localStorageSizeTitle => 'Local storage';
+
+  @override
+  String get appVersionTitle => 'App version';
+
+  @override
+  String appVersionAndBuild(String version, String buildNumber) {
+    return 'Version $version (build $buildNumber)';
+  }
+
+  @override
+  String appVersionLoadError(String details) {
+    return 'Could not read app version: $details';
+  }
 
   @override
   String localStorageUsage(int size) {

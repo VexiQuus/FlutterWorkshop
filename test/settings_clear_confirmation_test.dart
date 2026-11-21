@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutterworkshop/Pages/Settings/SettingsPage.dart';
 import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -33,6 +34,13 @@ void main() {
           .setMockMethodCallHandler(pathProviderChannel, null),
     );
     SharedPreferences.setMockInitialValues({});
+    PackageInfo.setMockInitialValues(
+      appName: 'Flutter Workshop',
+      packageName: 'com.example.flutterworkshop',
+      version: '1.0.1',
+      buildNumber: '2',
+      buildSignature: '',
+    );
 
     var clearCount = 0;
     await tester.pumpWidget(

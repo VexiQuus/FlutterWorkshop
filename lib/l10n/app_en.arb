@@ -3,6 +3,7 @@
   "appTitle": "Flutter Workshop",
   "listPageTitle": "List",
   "journalEntries": "Journal entries",
+  "selectJournalEntry": "Select an entry to see its details.",
   "settings": "Settings",
   "landingPageTitle": "Landing Page",
   "landingPageWelcome": "Welcome to the Landing Page!",
@@ -139,6 +140,26 @@
     }
   },
   "localStorageSizeTitle": "Local storage",
+  "appVersionTitle": "App version",
+  "appVersionAndBuild": "Version {version} (build {buildNumber})",
+  "@appVersionAndBuild": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "appVersionLoadError": "Could not read app version: {details}",
+  "@appVersionLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
   "localStorageUsage": "{size} KB used",
   "@localStorageUsage": {
     "placeholders": {
