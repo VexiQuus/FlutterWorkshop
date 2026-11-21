@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import '../../Component/DuoSideBackScope/DuoSideBackScope.dart';
 import 'SettingsPageController.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -176,7 +177,10 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(onPressed: () => _controller.goBack(context)),
+        automaticallyImplyLeading: !DuoSideBackScope.isEnabled(context),
+        leading: DuoSideBackScope.isEnabled(context)
+            ? null
+            : BackButton(onPressed: () => _controller.goBack(context)),
         title: Text(strings.settings),
       ),
       body: Center(
@@ -278,9 +282,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   }
                   if (snapshot.hasError) {
                     return Text(
-                      strings.appVersionLoadError(
-                        snapshot.error.toString(),
-                      ),
+                      strings.appVersionLoadError(snapshot.error.toString()),
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.error,
                       ),

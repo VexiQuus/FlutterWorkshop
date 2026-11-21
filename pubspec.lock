@@ -317,6 +317,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.20.3"
+  itchi_flutter_duo_layout:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: main
+      resolved-ref: "821121bfc3ebe540f344880904cf41ef355b5e66"
+      url: "https://github.com/itchitechhk/itchi_flutter_duo_layout.git"
+    source: git
+    version: "0.1.0"
   jni:
     dependency: transitive
     description:

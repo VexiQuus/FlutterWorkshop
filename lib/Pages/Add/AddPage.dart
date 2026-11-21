@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../Component/DuoSideBackScope/DuoSideBackScope.dart';
 import '../../Models/JournalEntry.dart';
 import 'AddPageController.dart';
 
@@ -335,7 +336,12 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
               onHorizontalDragCancel: _animateSwipeBack,
               child: Scaffold(
                 appBar: AppBar(
-                  leading: BackButton(onPressed: _requestExit),
+                  automaticallyImplyLeading: !DuoSideBackScope.isEnabled(
+                    context,
+                  ),
+                  leading: DuoSideBackScope.isEnabled(context)
+                      ? null
+                      : BackButton(onPressed: _requestExit),
                   title: Text(
                     widget.entry == null ? strings.add : strings.edit,
                   ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 
+import '../../Component/DuoSideBackScope/DuoSideBackScope.dart';
 import '../../Models/JournalEntry.dart';
 import '../Add/AddPage.dart';
 import 'DetailPageController.dart';
@@ -52,9 +53,10 @@ class _DetailPageState extends State<DetailPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: BackButton(
-            onPressed: () => controller.goBack(context, _entry),
-          ),
+          automaticallyImplyLeading: !DuoSideBackScope.isEnabled(context),
+          leading: DuoSideBackScope.isEnabled(context)
+              ? null
+              : BackButton(onPressed: () => controller.goBack(context, _entry)),
           title: Text(_entry.title),
           actions: [
             IconButton(
