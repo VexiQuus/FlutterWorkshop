@@ -264,12 +264,17 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
             backgroundColor: Theme.of(context).colorScheme.error,
             content: Row(
               children: [
-                Icon(Icons.error_outline, color: Colors.white),
+                Icon(
+                  Icons.error_outline,
+                  color: Theme.of(context).colorScheme.onError,
+                ),
                 SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     strings.missingTitleError,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onError,
+                    ),
                   ),
                 ),
               ],

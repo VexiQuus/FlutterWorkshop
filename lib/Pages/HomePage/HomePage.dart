@@ -220,7 +220,10 @@ class _HomePageState extends State<HomePage> {
                         alignment: Alignment.centerRight,
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         color: Theme.of(context).colorScheme.error,
-                        child: const Icon(Icons.delete, color: Colors.white),
+                        child: Icon(
+                          Icons.delete,
+                          color: Theme.of(context).colorScheme.onError,
+                        ),
                       ),
                       confirmDismiss: (_) => _confirmDelete(entry),
                       onDismissed: (_) =>

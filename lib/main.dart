@@ -5,6 +5,7 @@ import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/HomePage/HomePage.dart';
+import 'Theme/AppTheme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -130,9 +131,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: const [Locale('en'), Locale('zh', 'TW')],
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: AppTheme.light,
       home: !_isLocaleLoaded
           ? const Scaffold(body: Center(child: CircularProgressIndicator()))
           : _localeLoadError != null

@@ -16,6 +16,7 @@ class JournalCard extends StatelessWidget {
     final date = MaterialLocalizations.of(context)
         .formatShortDate(entry.createdAt);
     final strings = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return SizedBox(
       width: double.infinity,
@@ -24,23 +25,42 @@ class JournalCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
               children: [
-                Text(
-                  entry.title,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: _photo(context, height: 160),
+                  borderRadius: BorderRadius.circular(6),
+                  child: _photo(context, size: 48),
                 ),
-                const SizedBox(height: 8),
-                Text(entry.note, textAlign: TextAlign.center),
-                const SizedBox(height: 8),
-                Text(strings.createdOnDate(date), textAlign: TextAlign.center),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        entry.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.titleMedium,
+                      ),
+                      Text(
+                        entry.note,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall,
+                      ),
+                      Text(
+                        strings.createdOnDate(date),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -49,31 +69,31 @@ class JournalCard extends StatelessWidget {
     );
   }
 
-  Widget _photo(BuildContext context, {required double height}) {
+  Widget _photo(BuildContext context, {required double size}) {
     final path = entry.imagePath;
     if (path == null || path.isEmpty) {
-      return _photoPlaceholder(context, height);
+      return _photoPlaceholder(context, size);
     }
 
     return Image.file(
       File(path),
-      height: height,
-      width: double.infinity,
+      height: size,
+      width: size,
       fit: BoxFit.cover,
       errorBuilder: (context, error, stackTrace) =>
-          _photoPlaceholder(context, height),
+          _photoPlaceholder(context, size),
     );
   }
 
-  Widget _photoPlaceholder(BuildContext context, double height) {
+  Widget _photoPlaceholder(BuildContext context, double size) {
     return Container(
-      height: height,
-      width: double.infinity,
+      height: size,
+      width: size,
       color: Theme.of(context).colorScheme.surfaceContainerHighest,
       alignment: Alignment.center,
       child: Icon(
         Icons.image_outlined,
-        size: 36,
+        size: 24,
         color: Theme.of(context).colorScheme.onSurfaceVariant,
       ),
     );
