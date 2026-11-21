@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'SettingsPageController.dart';
 
@@ -30,10 +31,12 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _isStorageSizeLoading = true;
   int? _storageSizeBytes;
   String? _storageSizeError;
+  late final Future<PackageInfo> _appInfo;
 
   @override
   void initState() {
     super.initState();
+    _appInfo = PackageInfo.fromPlatform();
     unawaited(_loadStorageSize());
   }
 
@@ -261,6 +264,39 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
+              const SizedBox(height: 32),
+              Text(
+                strings.appVersionTitle,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 12),
+              FutureBuilder<PackageInfo>(
+                future: _appInfo,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return const LinearProgressIndicator();
+                  }
+                  if (snapshot.hasError) {
+                    return Text(
+                      strings.appVersionLoadError(
+                        snapshot.error.toString(),
+                      ),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                    );
+                  }
+
+                  final packageInfo = snapshot.requireData;
+                  return Text(
+                    strings.appVersionAndBuild(
+                      packageInfo.version,
+                      packageInfo.buildNumber,
+                    ),
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  );
+                },
+              ),
               const SizedBox(height: 32),
               OutlinedButton.icon(
                 onPressed: _isClearing ? null : _confirmAndClear,

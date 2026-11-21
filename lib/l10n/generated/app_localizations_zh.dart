@@ -218,6 +218,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get localStorageSizeTitle => '本機儲存空間';
 
   @override
+  String get appVersionTitle => '應用程式版本';
+
+  @override
+  String appVersionAndBuild(String version, String buildNumber) {
+    return '$version（建置編號 $buildNumber）';
+  }
+
+  @override
+  String appVersionLoadError(String details) {
+    return '無法讀取應用程式版本：$details';
+  }
+
+  @override
   String localStorageUsage(int size) {
     return '已使用 $size KB';
   }
@@ -468,6 +481,19 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get localStorageSizeTitle => '本機儲存空間';
+
+  @override
+  String get appVersionTitle => '應用程式版本';
+
+  @override
+  String appVersionAndBuild(String version, String buildNumber) {
+    return '$version（建置編號 $buildNumber）';
+  }
+
+  @override
+  String appVersionLoadError(String details) {
+    return '無法讀取應用程式版本：$details';
+  }
 
   @override
   String localStorageUsage(int size) {

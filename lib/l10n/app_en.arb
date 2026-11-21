@@ -139,6 +139,26 @@
     }
   },
   "localStorageSizeTitle": "Local storage",
+  "appVersionTitle": "App version",
+  "appVersionAndBuild": "Version {version} (build {buildNumber})",
+  "@appVersionAndBuild": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "appVersionLoadError": "Could not read app version: {details}",
+  "@appVersionLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
   "localStorageUsage": "{size} KB used",
   "@localStorageUsage": {
     "placeholders": {

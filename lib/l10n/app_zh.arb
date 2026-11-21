@@ -139,6 +139,26 @@
     }
   },
   "localStorageSizeTitle": "本機儲存空間",
+  "appVersionTitle": "應用程式版本",
+  "appVersionAndBuild": "{version}（建置編號 {buildNumber}）",
+  "@appVersionAndBuild": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "appVersionLoadError": "無法讀取應用程式版本：{details}",
+  "@appVersionLoadError": {
+    "placeholders": {
+      "details": {
+        "type": "String"
+      }
+    }
+  },
   "localStorageUsage": "已使用 {size} KB",
   "@localStorageUsage": {
     "placeholders": {
