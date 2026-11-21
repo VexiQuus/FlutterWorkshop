@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const primary = Color(0xFF025928);
-  static const secondary = Color(0xFFF25D27);
-  static const accent = Color(0xFFD9653B);
-  static const surface = Color(0xFFF2B29B);
-  static const background = Color(0xFFF2F2F2);
+  static const primary = Color(0xFF264BA6);
+  static const secondary = Color(0xFFEDB022);
+  static const accent = Color(0xFF1D3A7E);
+  static const surface = Color(0xFFFDF2EC);
+  static const background = Color(0xFFE2F3FB);
 
   static ThemeData get light {
     final colorScheme = ColorScheme.fromSeed(
@@ -17,8 +17,8 @@ class AppTheme {
       surface: surface,
     ).copyWith(
       onPrimary: Colors.white,
-      onSecondary: const Color(0xFF1C1B1F),
-      onTertiary: const Color(0xFF1C1B1F),
+      onSecondary: accent,
+      onTertiary: Colors.white,
     );
 
     return ThemeData(

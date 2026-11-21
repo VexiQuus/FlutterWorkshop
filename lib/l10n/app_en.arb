@@ -3,6 +3,7 @@
   "appTitle": "Flutter Workshop",
   "listPageTitle": "List",
   "journalEntries": "Journal entries",
+  "selectJournalEntry": "Select an entry to see its details.",
   "settings": "Settings",
   "landingPageTitle": "Landing Page",
   "landingPageWelcome": "Welcome to the Landing Page!",

@@ -19,6 +19,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get journalEntries => '日記';
 
   @override
+  String get selectJournalEntry => '選取日記以查看內容。';
+
+  @override
   String get settings => '設定';
 
   @override
@@ -282,6 +285,9 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get journalEntries => '日記';
+
+  @override
+  String get selectJournalEntry => '選取日記以查看內容。';
 
   @override
   String get settings => '設定';

@@ -3,6 +3,7 @@
   "appTitle": "Flutter 工作坊",
   "listPageTitle": "日記列表",
   "journalEntries": "日記",
+  "selectJournalEntry": "選取日記以查看內容。",
   "settings": "設定",
   "landingPageTitle": "首頁",
   "landingPageWelcome": "歡迎來到首頁！",

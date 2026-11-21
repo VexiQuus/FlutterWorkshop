@@ -6,10 +6,16 @@ import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 import '../../Models/JournalEntry.dart';
 
 class JournalCard extends StatelessWidget {
-  const JournalCard({super.key, required this.entry, this.onTap});
+  const JournalCard({
+    super.key,
+    required this.entry,
+    this.onTap,
+    this.isSelected = false,
+  });
 
   final JournalEntry entry;
   final VoidCallback? onTap;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +27,12 @@ class JournalCard extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Card(
+        shape: isSelected
+            ? RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+                side: BorderSide(color: theme.colorScheme.primary, width: 2),
+              )
+            : null,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),

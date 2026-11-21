@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:itchi_flutter_duo_layout/itchi_flutter_duo_layout.dart';
 import 'package:flutterworkshop/l10n/generated/app_localizations.dart';
 
+import '../../Component/JournalDetailContent/JournalDetailContent.dart';
 import '../../Component/JournalCard/JournalCard.dart';
 import '../../Models/JournalEntry.dart';
+import '../Add/AddPage.dart';
 import 'HomePageController.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +23,22 @@ class _HomePageState extends State<HomePage> {
   late final HomePageController _controller;
   late final List<JournalEntry> _initialEntries;
   bool _isControllerInitialized = false;
+  DuoFoldSnapshot? _foldSnapshot;
+  JournalEntry? _selectedEntry;
+  StreamSubscription<DuoFoldSnapshot>? _foldSubscription;
+
+  bool get _useFullScreenLayout =>
+      _foldSnapshot?.isAvailable == true && _foldSnapshot!.wantsTwoPanes;
+
+  @override
+  void initState() {
+    super.initState();
+    _foldSubscription = ItchiDuoFold.snapshots.listen((snapshot) {
+      if (mounted) {
+        setState(() => _foldSnapshot = snapshot);
+      }
+    });
+  }
 
   @override
   void didChangeDependencies() {
@@ -53,6 +72,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    unawaited(_foldSubscription?.cancel());
     _controller.dispose();
     super.dispose();
   }
@@ -106,6 +126,188 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  JournalEntry? _selectedEntryForPane() {
+    final selectedEntry = _selectedEntry;
+    if (selectedEntry != null && _controller.entries.contains(selectedEntry)) {
+      return selectedEntry;
+    }
+    return _controller.entries.isEmpty ? null : _controller.entries.first;
+  }
+
+  Future<void> _editPaneEntry(JournalEntry entry) async {
+    final updatedEntry = await Navigator.of(context).push<JournalEntry>(
+      MaterialPageRoute<JournalEntry>(builder: (_) => AddPage(entry: entry)),
+    );
+    if (updatedEntry == null || !mounted) {
+      return;
+    }
+    await _controller.updateEntry(entry, updatedEntry);
+    if (mounted) {
+      setState(() => _selectedEntry = updatedEntry);
+    }
+  }
+
+  Widget _buildJournalList(
+    AppLocalizations strings, {
+    required bool inFullScreenLayout,
+    JournalEntry? selectedEntry,
+  }) {
+    return ListView(
+      padding: EdgeInsets.all(inFullScreenLayout ? 12 : 16),
+      children: [
+        if (_controller.storageError != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text(
+              _errorMessage(_controller.storageError!, strings),
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        if (!inFullScreenLayout) ...[
+          Text(
+            strings.listPageTitle,
+            style: Theme.of(context).textTheme.displayLarge,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+        ],
+        if (inFullScreenLayout)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                strings.journalEntries,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: _buildSortDropdown(strings, isExpanded: true),
+              ),
+            ],
+          )
+        else
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  strings.journalEntries,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              _buildSortDropdown(strings),
+            ],
+          ),
+        for (final entry in _controller.entries)
+          Dismissible(
+            key: ObjectKey(entry),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              color: Theme.of(context).colorScheme.error,
+              child: Icon(
+                Icons.delete,
+                color: Theme.of(context).colorScheme.onError,
+              ),
+            ),
+            confirmDismiss: (_) => _confirmDelete(entry),
+            onDismissed: (_) => unawaited(_controller.removeEntry(entry)),
+            child: JournalCard(
+              entry: entry,
+              isSelected: inFullScreenLayout && identical(entry, selectedEntry),
+              onTap: inFullScreenLayout
+                  ? () => setState(() => _selectedEntry = entry)
+                  : () => _controller.openDetail(context, entry),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildSortDropdown(
+    AppLocalizations strings, {
+    bool isExpanded = false,
+  }) {
+    return DropdownButton<HomePageSortOption>(
+      isExpanded: isExpanded,
+      value: _controller.sortOption,
+      onChanged: (option) {
+        if (option != null) {
+          _controller.setSortOption(option);
+        }
+      },
+      items: [
+        for (final option in HomePageSortOption.values)
+          DropdownMenuItem(
+            value: option,
+            child: Text(_sortOptionLabel(option, strings)),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildSelectedEntryPane(
+    AppLocalizations strings,
+    JournalEntry? selectedEntry,
+  ) {
+    if (selectedEntry == null) {
+      return Center(
+        child: Text(strings.selectJournalEntry, textAlign: TextAlign.center),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              tooltip: strings.editJournalEntryTooltip,
+              onPressed: () => unawaited(_editPaneEntry(selectedEntry)),
+              icon: const Icon(Icons.edit),
+            ),
+          ),
+          Expanded(
+            child: Card(
+              margin: EdgeInsets.zero,
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: JournalDetailContent(
+                  entry: selectedEntry,
+                  photoHeight: 220,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFullScreenLayout(AppLocalizations strings) {
+    final selectedEntry = _selectedEntryForPane();
+    return Row(
+      children: [
+        Expanded(
+          flex: 5,
+          child: _buildJournalList(
+            strings,
+            inFullScreenLayout: true,
+            selectedEntry: selectedEntry,
+          ),
+        ),
+        const VerticalDivider(width: 1, thickness: 1),
+        Expanded(
+          flex: 7,
+          child: _buildSelectedEntryPane(strings, selectedEntry),
+        ),
+      ],
     );
   }
 
@@ -167,74 +369,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               )
-            : ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  if (_controller.storageError != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: Text(
-                        _errorMessage(_controller.storageError!, strings),
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  Text(
-                    strings.listPageTitle,
-                    style: Theme.of(context).textTheme.displayLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          strings.journalEntries,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ),
-                      DropdownButton<HomePageSortOption>(
-                        value: _controller.sortOption,
-                        onChanged: (option) {
-                          if (option != null) {
-                            _controller.setSortOption(option);
-                          }
-                        },
-                        items: [
-                          for (final option in HomePageSortOption.values)
-                            DropdownMenuItem(
-                              value: option,
-                              child: Text(_sortOptionLabel(option, strings)),
-                            ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  for (final entry in _controller.entries)
-                    Dismissible(
-                      key: ObjectKey(entry),
-                      direction: DismissDirection.endToStart,
-                      background: Container(
-                        alignment: Alignment.centerRight,
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        color: Theme.of(context).colorScheme.error,
-                        child: Icon(
-                          Icons.delete,
-                          color: Theme.of(context).colorScheme.onError,
-                        ),
-                      ),
-                      confirmDismiss: (_) => _confirmDelete(entry),
-                      onDismissed: (_) =>
-                          unawaited(_controller.removeEntry(entry)),
-                      child: JournalCard(
-                        entry: entry,
-                        onTap: () => _controller.openDetail(context, entry),
-                      ),
-                    ),
-                ],
-              ),
+            : _useFullScreenLayout
+            ? _buildFullScreenLayout(strings)
+            : _buildJournalList(strings, inFullScreenLayout: false),
       ),
     );
   }

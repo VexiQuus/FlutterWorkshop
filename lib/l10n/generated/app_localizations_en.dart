@@ -19,6 +19,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get journalEntries => 'Journal entries';
 
   @override
+  String get selectJournalEntry => 'Select an entry to see its details.';
+
+  @override
   String get settings => 'Settings';
 
   @override

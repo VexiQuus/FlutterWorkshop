@@ -117,6 +117,12 @@ abstract class AppLocalizations {
   /// **'Journal entries'**
   String get journalEntries;
 
+  /// No description provided for @selectJournalEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Select an entry to see its details.'**
+  String get selectJournalEntry;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
